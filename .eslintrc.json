@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "eslint-config-airbnb-base"
+  ],
+  "globals": {},
+  "rules": {
+    "no-debugger": 1,
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "max-len": [
+      "error",
+      120,
+      2,
+      {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "consistent-return": 0,
+    "no-mixed-operators": 0,
+    "no-confusing-arrow": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-array-constructor": 0,
+    "import/prefer-default-export": 0,
+    "object-curly-newline": 0
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  }
+}
