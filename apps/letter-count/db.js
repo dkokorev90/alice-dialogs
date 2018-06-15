@@ -13,6 +13,10 @@ exports.setWord = (id, word) => {
   SESSION[id].word = word;
 };
 
+exports.setLoss = (id) => {
+  SESSION[id].isLoss = true;
+};
+
 exports.getWord = id => SESSION[id].word;
 
 exports.decreaseAttempts = (id) => {

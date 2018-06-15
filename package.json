@@ -1,8 +1,10 @@
 {
   "name": "alice-dialogs",
   "description": "Alice dialogs",
+  "author": "Dmitrii Kokorev",
   "scripts": {
-
+    "start": "node app.js",
+    "deploy": "git push dokku"
   },
   "dependencies": {
     "express": "^4.16.3",

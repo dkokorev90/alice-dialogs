@@ -1,17 +1,12 @@
-const functions = require('firebase-functions');
-const express = require('express');
 const db = require('./db');
-const { isNumber } = require('lodash');
+const { isNaN } = require('lodash');
 const { onStart, onWrong, onCorrect, onDone, onUnknown } = require('./actions');
 
-const app = express();
-
-app.use(express.json());
-
-app.post('/', (req, res) => {
+module.exports = (req, res) => {
   const { body } = req;
   const { session = {}, request } = body || {};
-  const { command } = request || {};
+  const { command: rawCommand } = request || {};
+  const command = rawCommand && rawCommand.toLowerCase();
 
   if (session.new) {
     onStart(res, session);
@@ -24,17 +19,26 @@ app.post('/', (req, res) => {
   }
 
   const currentSession = db.getSession(session.session_id);
+
+  if (currentSession && currentSession.isLoss) {
+    if (command === 'да') {
+      onStart(res, session);
+    } else if (command === 'нет') {
+      onDone(res, session);
+    } else {
+      onUnknown(res, session);
+    }
+
+    return;
+  }
+
   const answer = parseInt(command, 10);
 
-  console.log(currentSession);
-
-  if (!isNumber(answer)) {
+  if (isNaN(answer) || !currentSession) {
     onUnknown(res, session);
   } else if (currentSession.word && answer === currentSession.word.length) {
     onCorrect(res, session);
   } else {
     onWrong(res, session);
   }
-});
-
-exports.letterCount = functions.https.onRequest(app);
+};
